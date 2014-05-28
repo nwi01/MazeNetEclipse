@@ -19,6 +19,7 @@ public class MazeNetworkConnector {
     private XmlInStream inStream;
     private XmlOutStream outStream;
     private ObjectFactory factory = new ObjectFactory();
+    private int id;
 
     public boolean open() throws IOException {
         try {
@@ -32,7 +33,6 @@ public class MazeNetworkConnector {
             LoginMessageType type = new LoginMessageType();
             type.setName("Niels & Mike");
             mazeCom.setLoginMessage(type);
-            mazeCom.setId(1);
             
             return sendMessage(mazeCom);
         } catch (IOException e) {
@@ -49,6 +49,7 @@ public class MazeNetworkConnector {
     public boolean sendMessage(MazeCom mazeCom) {
         try {
             //Senden
+        	mazeCom.setId(id);
             outStream.write(mazeCom);
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,10 +71,20 @@ public class MazeNetworkConnector {
                 if (answerCom != null) {
                     return answerCom;
                 }
+                Thread.sleep(500);
             }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    /**
+     * Setzen der Spieler-Id
+     * @param id
+     */
+    public void setId(int id)
+    {
+    	this.id = id;
     }
 }

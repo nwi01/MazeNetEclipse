@@ -7,7 +7,7 @@ public abstract class KiPlayer
 	private int id;
 	protected String name = "4711";
 	
-	abstract MoveMessageType getNextMove(MoveMessageType move);
+	abstract MazeCom getNextMove(MazeCom mazeCom);
 	
 	public void setName(String name)
 	{
