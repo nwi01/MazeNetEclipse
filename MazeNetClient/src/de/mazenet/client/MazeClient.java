@@ -36,8 +36,7 @@ public class MazeClient {
                     		System.out.println("Zug nicht akzeptiert.");
                     		System.out.println(acceptMessage.getErrorCode());
                     		
-                    	}
-                    	
+                    	}                    	
                     	break;
                     case AWAITMOVE:
                     	MazeCom newMove = player.getNextMove(mazeCom);
@@ -52,6 +51,7 @@ public class MazeClient {
                         break;
                     }
                     case MOVE: System.out.println("Move.");
+                    // Eigentlich Quatsch
                     	break;
                     case WIN:
                     	System.out.println("GEWONNEN.");

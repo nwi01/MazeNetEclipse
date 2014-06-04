@@ -19,7 +19,7 @@ public class MazeNetworkConnector {
     private XmlInStream inStream;
     private XmlOutStream outStream;
     private ObjectFactory factory = new ObjectFactory();
-    private int id;
+    public static int id;
 
     public boolean open() throws IOException {
         try {
