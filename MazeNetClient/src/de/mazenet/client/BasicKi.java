@@ -3,6 +3,7 @@ package de.mazenet.client;
 import generated.CardType;
 import generated.CardType.Openings;
 import generated.MazeCom;
+import generated.MazeComType;
 import generated.MoveMessageType;
 import generated.ObjectFactory;
 import generated.PositionType;
@@ -42,12 +43,9 @@ public class BasicKi extends KiPlayer
 		positionPin.setRow(0);
 		messageType.setNewPinPos(positionPin);
 		
-		
 		nextMove.setMoveMessage(messageType);
-		
-		
-		
-		
+		nextMove.setMcType(MazeComType.MOVE);
+			
 		return nextMove;
 	}
 	

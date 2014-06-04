@@ -63,17 +63,23 @@ public class MazeNetworkConnector {
      *
      * @return
      */
-    public MazeCom waitMessage() {
-        try {
+    public MazeCom waitMessage() 
+    {
+        try 
+        {
             //Warten auf Server
-            while (true) {
+            while (true) 
+            {
                 MazeCom answerCom = inStream.readMazeCom();
-                if (answerCom != null) {
+                if (answerCom != null) 
+                {
                     return answerCom;
                 }
                 Thread.sleep(500);
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             e.printStackTrace();
             return null;
         }

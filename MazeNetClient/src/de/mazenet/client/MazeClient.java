@@ -24,12 +24,20 @@ public class MazeClient {
         if (connection.open()) {
             while (!win) {
                 MazeCom mazeCom = connection.waitMessage();
-                System.out.println(mazeCom.toString());
                 switch (mazeCom.getMcType()) {
                     case ACCEPT:
-                    	System.out.println("Zug aktzeptiert.");
                     	AcceptMessageType acceptMessage = mazeCom.getAcceptMessage();
-                    	System.out.println(acceptMessage.getErrorCode());
+                    	if(acceptMessage.isAccept())
+                    	{
+                    		System.out.println("Zug akzeptiert.");	
+                    	}
+                    	else
+                    	{
+                    		System.out.println("Zug nicht akzeptiert.");
+                    		System.out.println(acceptMessage.getErrorCode());
+                    		
+                    	}
+                    	
                     	break;
                     case AWAITMOVE:
                     	MazeCom newMove = player.getNextMove(mazeCom);
