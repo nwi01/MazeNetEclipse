@@ -1,7 +1,14 @@
 package de.mazenet.util;
 
+import server.Board;
+import server.Card;
+import server.Messages;
+import server.Position;
+import tools.Debug;
+import tools.DebugLevel;
 import generated.BoardType;
 import generated.CardType;
+import generated.MoveMessageType;
 import generated.CardType.Openings;
 import generated.ObjectFactory;
 import generated.PositionType;
@@ -40,5 +47,4 @@ public class Util {
 		newOp.setLeft(openings.isLeft());
 		return newOp;
 	}
-
 }
