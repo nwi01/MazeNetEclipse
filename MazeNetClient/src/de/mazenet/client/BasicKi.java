@@ -96,7 +96,11 @@ public class BasicKi extends KiPlayer {
 				
 		for( int i = 1; i < 6; i++)
 		{
+			PositionType simulatePosition = n;
 			
+			if(allReachablePositions.contains(simulatePosition))
+			{				
+			}
 		}
 		
 		return treasure;
