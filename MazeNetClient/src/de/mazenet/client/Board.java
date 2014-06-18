@@ -27,14 +27,19 @@ public class Board extends BoardType {
 
 	public Board(BoardType boardType) {
 		super();
-		forbidden = boardType.getForbidden();
+		PositionType forbiddenPositionType = boardType.getForbidden();
+		forbidden = (forbiddenPositionType != null) ? new Position(
+				forbiddenPositionType) : null;
+		// XXX Wurde vergessen!
+		shiftCard = new Card(boardType.getShiftCard());
 		// XXX: Warum? Initialisierung?
 		this.getRow();
 		for (int i = 0; i < 7; i++) {
 			this.getRow().add(i, new Row());
 			this.getRow().get(i).getCol();
 			for (int j = 0; j < 7; j++) {
-				// new Card, damit keine Referenzen, sondern richte Kopien erstellt werden
+				// new Card, damit keine Referenzen, sondern richte Kopien
+				// erstellt werden
 				this.getRow()
 						.get(i)
 						.getCol()
@@ -532,5 +537,3 @@ public class Board extends BoardType {
 		return currentTreasure;
 	}
 }
-
-

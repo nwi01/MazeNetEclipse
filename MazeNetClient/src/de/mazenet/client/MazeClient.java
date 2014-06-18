@@ -50,11 +50,10 @@ public class MazeClient {
                         System.out.println("Am Server angemeldet.");
                         break;
                     }
-                    case MOVE: System.out.println("Move.");
-                    // Eigentlich Quatsch
-                    	break;
                     case WIN:
                     	System.out.println("GEWONNEN.");
+                    	connection.close();
+                    	System.exit(0);
                     	break;
                 }
                 Thread.sleep(2000);

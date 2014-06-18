@@ -17,6 +17,7 @@ import generated.TreasureType;
 public class BasicKi extends KiPlayer {
 	private ObjectFactory factory;
 	private MoveMessageType nextMoveMessageType;
+	private MoveMessageType oldMoveMessageType;
 
 	public BasicKi() {
 		setName("BasicKi");
@@ -38,7 +39,7 @@ public class BasicKi extends KiPlayer {
 
 		Openings openings = boardType.getShiftCard().getOpenings();
 		Openings openCopy = Util.copyOpenings(openings);
-
+		
 		List<Position> positions = Position.getPossiblePositionsForShiftcard();
 		for (Position position : positions) {
 			for (int i = 0; i < 4; i++) {
@@ -56,8 +57,21 @@ public class BasicKi extends KiPlayer {
 						treasureType);
 			}
 		}
-
+		
+		if(oldMoveMessageType != null && Util.isEqualPinPosition(oldMoveMessageType.getNewPinPos(), nextMoveMessageType.getNewPinPos()))
+		{
+			de.mazenet.client.Board newBoard = new de.mazenet.client.Board(boardType);
+			
+			PositionType ownPosition = newBoard.findPlayer(MazeNetworkConnector.id);
+			List<PositionType> allReachablePositions = newBoard.getAllReachablePositions(ownPosition);
+						
+			nextMoveMessageType.setNewPinPos(allReachablePositions.get(0));
+			nextMoveMessageType.setShiftPosition(Position.getPossiblePositionsForShiftcard().get(Position.getPossiblePositionsForShiftcard().size() * (int)Math.random()));
+		}
+		
+		oldMoveMessageType =  nextMoveMessageType;
 		nextMove.setMoveMessage(nextMoveMessageType);
+		
 		return nextMove;
 	}
 
@@ -65,7 +79,7 @@ public class BasicKi extends KiPlayer {
 			Openings openings, Position position, TreasureType treasure) {
 		// neues Board durch einschub der Karte
 		MoveMessageType newMoveMessageType = factory.createMoveMessageType();
-		CardType cardType = factory.createCardType();
+		CardType cardType = boardType.getShiftCard();
 		cardType.setOpenings(openings);		
 		newMoveMessageType.setShiftCard(cardType);
 		newMoveMessageType.setShiftPosition(position);
@@ -93,22 +107,49 @@ public class BasicKi extends KiPlayer {
 	private PositionType simulatePinMove(de.mazenet.client.Board board, PositionType treasure) {
 		PositionType ownPosition = board.findPlayer(MazeNetworkConnector.id);
 		List<PositionType> allReachablePositions = board.getAllReachablePositions(ownPosition);
-				
-		for( int i = 1; i < 6; i++)
+		
+		PositionType ergebnis = allReachablePositions.get(0);
+		
+		if (allReachablePositions.contains(treasure))
 		{
-			PositionType simulatePosition = n;
-			
-			if(allReachablePositions.contains(simulatePosition))
-			{				
-			}
+			return treasure;
+		}
+				
+		for( int i = 1; i < allReachablePositions.size(); i++)
+		{	
+			ergebnis = compare(ergebnis, allReachablePositions.get(i), treasure);
 		}
 		
-		return treasure;
+		return ergebnis;
+	}
+	
+	private PositionType compare(PositionType oldPositionType, PositionType newPositionType, PositionType treasureType){
+		if(oldPositionType == null)
+		{
+			return newPositionType;
+		}
+		
+		int abstandOld = Math.abs(oldPositionType.getCol() - treasureType.getCol()) + Math.abs(oldPositionType.getRow() - treasureType.getRow());
+		int abstandNew = Math.abs(newPositionType.getCol() - treasureType.getCol()) + Math.abs(newPositionType.getRow() - treasureType.getRow());
+		
+		if (abstandNew <= abstandOld) 
+		{
+			return newPositionType;
+		} 
+		else 
+		{
+			return oldPositionType;
+		}
 	}
 
 	private MoveMessageType compare(MoveMessageType oldMoveMessage,
 			MoveMessageType newMoveMessage, PositionType treasureType) 
 	{
+		if(oldMoveMessage == null)
+		{
+			return newMoveMessage;
+		}
+		
 		int abstandOld = Math.abs(oldMoveMessage.getNewPinPos().getCol() - treasureType.getCol()) + Math.abs(oldMoveMessage.getNewPinPos().getRow() - treasureType.getRow());
 		int abstandNew = Math.abs(newMoveMessage.getNewPinPos().getCol() - treasureType.getCol()) + Math.abs(newMoveMessage.getNewPinPos().getRow() - treasureType.getRow());
 		

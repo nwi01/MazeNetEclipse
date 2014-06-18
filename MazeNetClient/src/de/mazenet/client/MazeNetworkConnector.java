@@ -39,6 +39,10 @@ public class MazeNetworkConnector {
             return false;
         }
     }
+    public void close() throws IOException{
+    	this.inStream.close();
+    	this.outStream.close();this.socket.close();
+    }
 
     /**
      * Senden des MazeCom Objektes

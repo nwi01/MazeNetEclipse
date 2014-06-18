@@ -47,4 +47,8 @@ public class Util {
 		newOp.setLeft(openings.isLeft());
 		return newOp;
 	}
+	
+	public static boolean isEqualPinPosition(PositionType oldPositionType, PositionType newPositionType){
+		return oldPositionType.getCol() == newPositionType.getCol() && oldPositionType.getRow() == newPositionType.getRow();
+	}
 }
